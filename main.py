@@ -13,13 +13,16 @@ st.set_page_config(page_title="Ollama Chatbot", page_icon="💬")
 with st.sidebar:
     st.title('💬 Ollama Chatbot')
     
+    # Select the model
     selected_model = st.selectbox('Choose a model', ['Mistral', 'Llama2', 'Code Llama'], key='selected_model')
 
+    # Edit system prompt 
     system_prompt = st.text_area(
             label="System Prompt",
             value="You are a helpful assistant who answers questions in short sentences."
             )
     
+    # Toggle to activate GPU 
     gpu_on = st.toggle('Activate GPU')
 
 # Select the model 
@@ -52,7 +55,7 @@ AI: """
 prompt = PromptTemplate(input_variables=["history", "human_input"], template=template)
 llm_chain = LLMChain(llm=Ollama(model=llm_model, num_gpu=activate_gpu), prompt=prompt, memory=memory)
 
-# Display or clear chat messages
+# Display current messages from StreamlitChatMessageHistory
 for msg in msgs.messages:
     if msg.type == "Human":
         with st.chat_message(msg.type, avatar="🧑‍💻"):
@@ -61,18 +64,19 @@ for msg in msgs.messages:
        with st.chat_message(msg.type, avatar="💬"):
             st.write(msg.content) 
 
+# Clear chat messages
 def clear_chat_history():
     msgs.clear()
 st.sidebar.button('Clear Chat History', on_click=clear_chat_history)
 
-# User-provided prompt
+# User input new prompt, generate, and display a new response
 if prompt := st.chat_input():
     with st.chat_message("human", avatar="🧑‍💻"):
         st.write(prompt)
+
     with st.chat_message("assistant", avatar="💬"):
         with st.spinner("Thinking..."):
             response = llm_chain.run(prompt)
-            #st.write(response)
         placeholder = st.empty()
         full_response = ''
         for item in response:
