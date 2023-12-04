@@ -8,9 +8,9 @@ We use Mistral 7b model as default model. You can change other supported models,
 ## Setup
 
 Install Ollama
-```bash
-  curl https://ollama.ai/install.sh | sh
-```
+
+[Download Ollama](https://ollama.ai/download)
+
 Download Mistral 7b
 ```bash
 ollama pull mistral
@@ -41,8 +41,9 @@ Start the streamlit
 ```
 
 
-## Reference
+## References
 
  - [Llama 2 Chat](https://github.com/dataprofessor/llama2/tree/master)
  - [ai-chatbot-ollama](https://github.com/lalanikarim/ai-chatbot-ollama)
+ - [Streamlit chat message history](https://python.langchain.com/docs/integrations/memory/streamlit_chat_message_history)
 
